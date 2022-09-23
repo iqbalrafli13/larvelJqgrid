@@ -18,9 +18,11 @@
         </style>
 
         <style>
+            .highlight { background-color: red }
             .errorForm{
-                display: none;
-                background-color: red;
+                display:none;
+                color:red;
+                background-color:yellow;
             }
             body {
                 font-family: 'Nunito';

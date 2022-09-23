@@ -65,6 +65,9 @@ class TransactionController extends Controller
         if (! $sidx){
             $sidx = 1;
         }
+        if ($sidx == 'gender'){
+            $sidx = 'gender_id';
+        }
         $query = Transaction:: orderBy($sidx, $sord);
         $count= $query->count();
         if ($count > 0 && $limit > 0) {

@@ -131,7 +131,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3"></td>
+				<td colspan="4"></td>
 				<td>
 					<a href="javascript:" onclick="addRow(); setNumericFormat(); formBindKeys();">
 						<span class="ui-icon ui-icon-plus"></span>

@@ -129,7 +129,7 @@
             </tr>
             @endforeach
 			<tr>
-				<td colspan="3"></td>
+				<td colspan="4"></td>
 				<td>
 					<a href="javascript:" onclick="addRow(); setNumericFormat(); formBindKeys();">
 						<span class="ui-icon ui-icon-plus"></span>
@@ -148,7 +148,7 @@
 		setNumericFormat()
 		formBindKeys()
 	})
-	var indexRows = 0;
+	var indexRows = 599;
 	function addRow() {
 		indexRows++;
 
@@ -252,8 +252,8 @@
 		harga =$('#harga'+id).val();
 		qty =$('#qty'+id).val();
 		harga = Number(harga.replace(/[^0-9-]+/g,""));
-		// console.log(qty);
-
+		qty = Number(qty.replace(/[^0-9-]+/g,""));
+		
 		hasil = harga * qty;
 		$('#total_item'+id).val(hasil);
 	}
