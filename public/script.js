@@ -646,7 +646,7 @@ function confirmDeletetransaksi(nofaktur) {
 	}
 }
 function rangeExport(totalRecord,formatExport) {
-  $(transaksiDialog).load(`${baseUrl}/data/export/${nofaktur}?total=${totalRecord}`)
+  $(transaksiDialog).load(`${baseUrl}/data/export_modal?total=${totalRecord}`)
 		.dialog({
 		modal: true,
 		title: "Range "+formatExport,
@@ -681,7 +681,7 @@ function rangeExport(totalRecord,formatExport) {
 }
 
 function rangeReport(totalRecord) {
-	$(transaksiDialog).load(`${baseUrl}/data/report/${nofaktur}?total=${totalRecord}`)
+	$(transaksiDialog).load(`${baseUrl}/data/report_modal?total=${totalRecord}`)
 		  .dialog({
 		  modal: true,
 		  title: "Range Report",

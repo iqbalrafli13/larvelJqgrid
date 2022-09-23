@@ -19,11 +19,11 @@ use Illuminate\Http\Request;
 Route::get('/', function () {
     return view('index');
 });
-Route::get('/data/export/{id}', function(Request $request){
+Route::get('/data/export_modal', function(Request $request){
     return view('modal.report',["total"=>$request->total]);
 });
 
-Route::get('/data/report/{id}', function(Request $request){
+Route::get('/data/report_modal', function(Request $request){
     return view('modal.report',["total"=>$request->total]);
 });
 
