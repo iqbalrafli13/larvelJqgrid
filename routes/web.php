@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,12 +19,12 @@ use App\Http\Controllers\ReportController;
 Route::get('/', function () {
     return view('index');
 });
-Route::get('/data/export/{id}', function(){
-    return view('modal.report');
+Route::get('/data/export/{id}', function(Request $request){
+    return view('modal.report',["total"=>$request->total]);
 });
 
-Route::get('/data/report/{id}', function(){
-    return view('modal.report');
+Route::get('/data/report/{id}', function(Request $request){
+    return view('modal.report',["total"=>$request->total]);
 });
 
 Route::get('/data/create', [TransactionController::class,'create']);

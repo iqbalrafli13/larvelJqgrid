@@ -68,24 +68,6 @@ class ReportController extends Controller
 
         $transactions = $query->with('details')->with('gender')->whereRaw($search)->skip($start)->take($limit)->get();
         $responce = new \stdClass();
-    
-        // echo $SQL; return 0;
-        $i = 0;
-        $data = [];
-        // foreach ($transactions as $transaksi) {
-        //     $curency = number_format($transaksi->saldo,0,',','.');
-        //     $transaksi->detail =[];
-        //     foreach ($transaksi->details as $detail) {
-        //         # code...
-        //     }
-        //     while ($detail = mysqli_fetch_assoc($sqldetail)){
-        //         $transaksi->detail[$j]=$detail;
-        //         $j++;
-        //     }
-    
-        //     $data[$i] = $transaksi;
-        //     $i++;
-        // }
         return json_encode($transactions);
     
     }

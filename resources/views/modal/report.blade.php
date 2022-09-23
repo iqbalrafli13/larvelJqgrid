@@ -12,7 +12,7 @@
 			<label>From</label>
 		</td>
 		<td>
-		<input type="number" class="FormElement ui-widget-content ui-corner-all" name="from" value="1" min="1" max="<?=$_GET['total']?>">
+		<input type="number" class="FormElement ui-widget-content ui-corner-all" name="from" value="1" min="1" max="{{$total}}">
 
 		</td>
 	</tr>
@@ -22,7 +22,7 @@
 
 		</td>
 		<td>
-			<input type="number" class="FormElement ui-widget-content ui-corner-all" name="to" value="<?=$_GET['total']?>" min="1" max="<?=$_GET['total']?>">
+			<input type="number" class="FormElement ui-widget-content ui-corner-all" name="to" value="{{$total}}" min="1" max="{{$total}}">
 		</td>
 	</tr>
 </table>

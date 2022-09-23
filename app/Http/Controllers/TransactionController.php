@@ -22,7 +22,7 @@ class TransactionController extends Controller
             $search .=" nofaktur like '%$global_search%' or";
             $search .=" tanggal like '%$global_search%' or";
             $search .=" nama like '%$global_search%' or";
-            $search .=" gender.nama like '%$global_search%' or";
+            $search .=" genders.nama like '%$global_search%' or";
             $search .=" phone like '%$global_search%' or";
             $search .=" address like '%$global_search%' or";
             $search .=" saldo like '%$global_search%' ";
@@ -68,7 +68,8 @@ class TransactionController extends Controller
         if ($sidx == 'gender'){
             $sidx = 'gender_id';
         }
-        $query = Transaction:: orderBy($sidx, $sord);
+        $query = Transaction::orderBy($sidx, $sord);
+        // $query = Transaction::with('gender')->orderBy($sidx, $sord);
         $count= $query->count();
         if ($count > 0 && $limit > 0) {
             $total_pages = ceil($count / $limit);
