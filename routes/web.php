@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ReportController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +15,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+Route::get('/data/export/{id}', function(){
+    return view('modal.report');
+});
+
+Route::get('/data/report/{id}', function(){
+    return view('modal.report');
+});
+
+Route::get('/data/create', [TransactionController::class,'create']);
+Route::get('/data/edit/{id}', [TransactionController::class,'edit']);
+Route::get('/data/delete/{id}', [TransactionController::class,'delete']);
+
+Route::get('/data/export',[ReportController::class,'export']);
+Route::get('/data/report',[ReportController::class,'report']);
+Route::get('/data/data_report',[ReportController::class,'data_report']);
+// Route::get('/', function () {
+//     return view('welcome');
+// });
