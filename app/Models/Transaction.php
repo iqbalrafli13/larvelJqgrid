@@ -19,7 +19,7 @@ class Transaction extends Model
     ];
     public function gender()
     {
-        return $this->belongsTo(Gender::class);
+        return $this->belongsTo(Gender::class,'gender_id','id');
     }
     public function details()
     {

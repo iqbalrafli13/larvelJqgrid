@@ -1,10 +1,10 @@
 {
-  "ReportGuid": "4047fdcff2038a2f5565134445a2101a",
+  "ReportGuid": "6fcd0f80d4b6eb6fd14fa5f762cc8347",
   "ReportName": "Report",
   "ReportAlias": "Report",
   "ReportFile": "MasterDetail.mrt",
   "ReportCreated": "/Date(1627890106000+0700)/",
-  "ReportChanged": "/Date(1663907025000+0700)/",
+  "ReportChanged": "/Date(1663992053000+0700)/",
   "EngineVersion": "EngineV2",
   "CalculationMode": "Interpretation",
   "ReportUnit": "Centimeters",
@@ -123,6 +123,13 @@
             "Index": -1,
             "NameInSource": "details",
             "Alias": "details",
+            "Type": "System.String"
+          },
+          "14": {
+            "Name": "gender",
+            "Index": -1,
+            "NameInSource": "gender",
+            "Alias": "gender",
             "Type": "System.String"
           }
         },
@@ -933,7 +940,9 @@
                 "DecimalSeparator": ",",
                 "DecimalDigits": 0,
                 "GroupSeparator": ".",
-                "PositivePattern": 0
+                "UseLocalSetting": false,
+                "PositivePattern": 0,
+                "Symbol": "Rp. "
               },
               "Type": "Expression"
             },
@@ -965,6 +974,14 @@
                 "Right": 3,
                 "Top": 0,
                 "Bottom": 0
+              },
+              "TextFormat": {
+                "Ident": "StiNumberFormatService",
+                "NegativePattern": 1,
+                "DecimalSeparator": ",",
+                "DecimalDigits": 0,
+                "GroupSeparator": ".",
+                "UseLocalSetting": false
               },
               "Type": "Expression"
             },

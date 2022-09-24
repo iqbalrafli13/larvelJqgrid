@@ -1,10 +1,10 @@
 {
-  "ReportGuid": "89920e10f9c4f3ce97c06806308c5108",
+  "ReportGuid": "a1bd0d8122ea1364dbc7fb8bdbb7b5bd",
   "ReportName": "Report",
   "ReportAlias": "Report",
-  "ReportFile": "DETAIL.mrt",
+  "ReportFile": "MasterDetail.mrt",
   "ReportCreated": "/Date(1627890106000+0700)/",
-  "ReportChanged": "/Date(1663667942000+0700)/",
+  "ReportChanged": "/Date(1663991913000+0700)/",
   "EngineVersion": "EngineV2",
   "CalculationMode": "Interpretation",
   "ReportUnit": "Centimeters",
@@ -32,7 +32,7 @@
             "Index": -1,
             "NameInSource": "id",
             "Alias": "id",
-            "Type": "System.String"
+            "Type": "System.Decimal"
           },
           "1": {
             "Name": "nofaktur",
@@ -81,7 +81,7 @@
             "Index": -1,
             "NameInSource": "gender_id",
             "Alias": "gender_id",
-            "Type": "System.String"
+            "Type": "System.Decimal"
           },
           "8": {
             "Name": "genders",
@@ -103,21 +103,49 @@
             "NameInSource": "transaksi_id",
             "Alias": "transaksi_id",
             "Type": "System.String"
+          },
+          "11": {
+            "Name": "created_at",
+            "Index": -1,
+            "NameInSource": "created_at",
+            "Alias": "created_at",
+            "Type": "System.DateTime"
+          },
+          "12": {
+            "Name": "updated_at",
+            "Index": -1,
+            "NameInSource": "updated_at",
+            "Alias": "updated_at",
+            "Type": "System.DateTime"
+          },
+          "13": {
+            "Name": "details",
+            "Index": -1,
+            "NameInSource": "details",
+            "Alias": "details",
+            "Type": "System.String"
+          },
+          "14": {
+            "Name": "gender",
+            "Index": -1,
+            "NameInSource": "gender",
+            "Alias": "gender",
+            "Type": "System.String"
           }
         },
         "NameInSource": "Data.root"
       },
       "1": {
         "Ident": "StiDataTableSource",
-        "Name": "root_detail",
-        "Alias": "root_detail",
+        "Name": "root_details",
+        "Alias": "root_details",
         "Columns": {
           "0": {
             "Name": "id",
             "Index": -1,
             "NameInSource": "id",
             "Alias": "id",
-            "Type": "System.String"
+            "Type": "System.Decimal"
           },
           "1": {
             "Name": "barang",
@@ -141,13 +169,27 @@
             "Type": "System.String"
           },
           "4": {
-            "Name": "transaksi_id",
+            "Name": "transaction_id",
             "Index": -1,
-            "NameInSource": "transaksi_id",
-            "Alias": "transaksi_id",
-            "Type": "System.String"
+            "NameInSource": "transaction_id",
+            "Alias": "transaction_id",
+            "Type": "System.Decimal"
           },
           "5": {
+            "Name": "created_at",
+            "Index": -1,
+            "NameInSource": "created_at",
+            "Alias": "created_at",
+            "Type": "System.DateTime"
+          },
+          "6": {
+            "Name": "updated_at",
+            "Index": -1,
+            "NameInSource": "updated_at",
+            "Alias": "updated_at",
+            "Type": "System.DateTime"
+          },
+          "7": {
             "Name": "relationId",
             "Index": -1,
             "NameInSource": "relationId",
@@ -155,7 +197,7 @@
             "Type": "System.String"
           }
         },
-        "NameInSource": "Data.root_detail"
+        "NameInSource": "Data.root_details"
       }
     },
     "Relations": {
@@ -165,12 +207,26 @@
           "0": "relationId"
         },
         "ParentColumns": {
-          "0": "detail"
+          "0": "details"
         },
-        "NameInSource": "root_detail",
+        "NameInSource": "root_details",
         "Alias": "root",
         "ParentSource": "root",
-        "ChildSource": "root_detail"
+        "ChildSource": "root_details"
+      },
+      "1": {
+        "Name": "Relation",
+        "ChildColumns": {
+          "0": "transaction_id"
+        },
+        "ParentColumns": {
+          "0": "id"
+        },
+        "NameInSource": "Relation",
+        "Alias": "Relation",
+        "Active": true,
+        "ParentSource": "root",
+        "ChildSource": "root_details"
       }
     }
   },
@@ -229,13 +285,13 @@
             "0": {
               "Ident": "StiText",
               "Name": "Text1",
-              "ClientRectangle": "0,0,6.6,1.2",
+              "ClientRectangle": "0,0,8.6,1.2",
               "ComponentPlacement": "rt.ReportTitleBand1",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "Customer Order"
+                "Value": "Transaksi Pelanggan"
               },
               "VertAlignment": "Center",
               "Font": ";24;Bold;",
@@ -383,7 +439,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_detail.root.nofaktur}"
+                "Value": "{root.nofaktur}"
               },
               "VertAlignment": "Center",
               "Font": ";10;;",
@@ -396,7 +452,7 @@
                 "Top": 0,
                 "Bottom": 0
               },
-              "Type": "DataColumn"
+              "Type": "Expression"
             },
             "5": {
               "Ident": "StiText",
@@ -408,7 +464,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_detail.root.nama}"
+                "Value": "{root.nama}"
               },
               "VertAlignment": "Center",
               "Font": ";10;;",
@@ -421,7 +477,7 @@
                 "Top": 0,
                 "Bottom": 0
               },
-              "Type": "DataColumn"
+              "Type": "Expression"
             },
             "6": {
               "Ident": "StiText",
@@ -433,7 +489,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_detail.root.phone}"
+                "Value": "{root.phone}"
               },
               "VertAlignment": "Center",
               "Font": ";10;;",
@@ -446,7 +502,7 @@
                 "Top": 0,
                 "Bottom": 0
               },
-              "Type": "DataColumn"
+              "Type": "Expression"
             },
             "7": {
               "Ident": "StiText",
@@ -460,7 +516,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_detail.root.address}"
+                "Value": "{root.address}"
               },
               "VertAlignment": "Center",
               "Font": ";10;;",
@@ -476,7 +532,7 @@
                 "Top": 0,
                 "Bottom": 0
               },
-              "Type": "DataColumn"
+              "Type": "Expression"
             },
             "8": {
               "Ident": "StiText",
@@ -583,7 +639,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{Sum(Sum(DataBand2,(\r\nSum(int.Parse(root_detail.harga) * int.Parse(root_detail.quantity)\r\n))))}"
+                "Value": "{Sum(Sum(DataBand2,(\r\nSum(int.Parse(root_details.harga) * int.Parse(root_details.quantity)\r\n))))}"
               },
               "HorAlignment": "Right",
               "VertAlignment": "Center",
@@ -831,7 +887,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_detail.barang}"
+                "Value": "{root_details.barang}"
               },
               "CanBreak": true,
               "VertAlignment": "Center",
@@ -861,7 +917,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_detail.harga}"
+                "Value": "{root_details.harga}"
               },
               "CanBreak": true,
               "HorAlignment": "Right",
@@ -884,9 +940,11 @@
                 "DecimalSeparator": ",",
                 "DecimalDigits": 0,
                 "GroupSeparator": ".",
-                "PositivePattern": 0
+                "UseLocalSetting": false,
+                "PositivePattern": 0,
+                "Symbol": "Rp. "
               },
-              "Type": "DataColumn"
+              "Type": "Expression"
             },
             "3": {
               "Ident": "StiText",
@@ -900,7 +958,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_detail.quantity}"
+                "Value": "{root_details.quantity}"
               },
               "CanBreak": true,
               "HorAlignment": "Right",
@@ -931,7 +989,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{int.Parse(root_detail.harga) * int.Parse(root_detail.quantity)}"
+                "Value": "{int.Parse(root_details.harga) * int.Parse(root_details.quantity)}"
               },
               "CanBreak": true,
               "HorAlignment": "Right",
@@ -960,7 +1018,8 @@
               "Type": "Expression"
             }
           },
-          "DataSourceName": "root_detail",
+          "DataSourceName": "root_details",
+          "DataRelationName": "Relation",
           "MasterComponent": "DataBand1"
         },
         "7": {
@@ -1008,7 +1067,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{Sum(int.Parse(root_detail.harga) * int.Parse(root_detail.quantity))}"
+                "Value": "{Sum(int.Parse(root_details.harga) * int.Parse(root_details.quantity))}"
               },
               "HorAlignment": "Right",
               "VertAlignment": "Center",
@@ -1025,10 +1084,11 @@
               "TextFormat": {
                 "Ident": "StiCurrencyFormatService",
                 "NegativePattern": 0,
-                "DecimalSeparator": ",",
                 "DecimalDigits": 0,
-                "GroupSeparator": ".",
-                "PositivePattern": 0
+                "GroupSeparator": ",",
+                "UseLocalSetting": false,
+                "PositivePattern": 0,
+                "Symbol": "Rp. "
               },
               "Type": "Expression"
             }

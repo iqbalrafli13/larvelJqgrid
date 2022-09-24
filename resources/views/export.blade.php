@@ -22,7 +22,7 @@ foreach ($customers as $customer) {
     $sheet->setCellValue('A'.$row, 'Nama');
     $sheet->setCellValue('B'.$row++, $customer->nama);
     $sheet->setCellValue('A'.$row, 'JenKel');
-    $sheet->setCellValue('B'.$row++, $customer->gender->nama);
+    $sheet->setCellValue('B'.$row++, $customer->gender);
     $sheet->setCellValue('A'.$row, 'Phone');
     $sheet->setCellValue('B'.$row++, $customer->phone);
     $sheet->setCellValue('A'.$row, 'Saldo');

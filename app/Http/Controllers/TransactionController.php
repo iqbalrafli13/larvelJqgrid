@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Http\Controllers\DetailtransactionController;
-
+use Illuminate\Database\Query\Builder;
 
 class TransactionController extends Controller
 {
@@ -19,41 +19,41 @@ class TransactionController extends Controller
         $search="";
         if (isset($request->global_search) && strlen($request->global_search)) {
             $global_search = $request->global_search;
-            $search .=" nofaktur like '%$global_search%' or";
-            $search .=" tanggal like '%$global_search%' or";
-            $search .=" nama like '%$global_search%' or";
+            $search .=" transactions.nofaktur like '%$global_search%' or";
+            $search .=" transactions.tanggal like '%$global_search%' or";
+            $search .=" transactions.nama like '%$global_search%' or";
             $search .=" genders.nama like '%$global_search%' or";
-            $search .=" phone like '%$global_search%' or";
-            $search .=" address like '%$global_search%' or";
-            $search .=" saldo like '%$global_search%' ";
+            $search .=" transactions.phone like '%$global_search%' or";
+            $search .=" transactions.address like '%$global_search%' or";
+            $search .=" transactions.saldo like '%$global_search%' ";
         }else{
             if(isset($request->nofaktur)){
                 $nofaktur = $request->nofaktur;
-                $search .=" nofaktur like '%$nofaktur%' and";
+                $search .=" transactions.nofaktur like '%$nofaktur%' and";
             }
             if(isset($request->tanggal)){
                 $tanggal = date("Y-m-d", strtotime($request->tanggal));
-                $search .=" tanggal = '$tanggal' and";
+                $search .=" transactions.tanggal = '$tanggal' and";
             }
             if(isset($request->nama)){
                 $nama = $request->nama;
-                $search .=" nama like '%$nama%' and";
+                $search .=" transactions.nama like '%$nama%' and";
             }
             if(isset($request->gender)){
                 $gender = $request->gender;
-                $search .=" gender_id = '$gender' and";
+                $search .=" transactions.gender_id = '$gender' and";
             }
             if(isset($request->phone)){
                 $phone = $request->phone;
-                $search .=" phone like '%$phone%' and";
+                $search .=" transactions.phone like '%$phone%' and";
             }
             if(isset($request->address)){
                 $address = $request->address;
-                $search .=" address like '%$address%' and";
+                $search .=" transactions.address like '%$address%' and";
             }
             if(isset($request->saldo)){
                 $saldo = $request->saldo;
-                $search .=" saldo like '%$saldo%' and";
+                $search .=" transactions.saldo like '%$saldo%' and";
             }
             $search .= " 1 ";
         }
@@ -69,7 +69,6 @@ class TransactionController extends Controller
             $sidx = 'gender_id';
         }
         $query = Transaction::orderBy($sidx, $sord);
-        // $query = Transaction::with('gender')->orderBy($sidx, $sord);
         $count= $query->count();
         if ($count > 0 && $limit > 0) {
             $total_pages = ceil($count / $limit);
@@ -79,9 +78,14 @@ class TransactionController extends Controller
         if ($page > $total_pages)
             $page = $total_pages;
         $start = $limit * $page - $limit;
-        if ($start < 0)
-            $start = 0;
-        $transactions = $query->whereRaw($search)->skip($start)->take($limit)->get();
+        if ($start < 0)  $start = 0;
+
+        $transactions = $query->select('transactions.*','genders.nama as gender')
+        ->leftJoin('genders', function($join) {
+            $join->on(  'transactions.gender_id','=','genders.id');
+          })
+        ->whereRaw($search)->skip($start)->take($limit)->get();
+        
         $i = 0;
         $responce = new \stdClass();
 
@@ -91,7 +95,7 @@ class TransactionController extends Controller
                 $transaksi->nofaktur,
                 date('d-m-Y', strtotime($transaksi->tanggal)),
                 $transaksi->nama,
-                $transaksi->gender->nama,
+                $transaksi->gender,
                 $transaksi->phone,
                 $transaksi->address,
                 $transaksi->saldo,
