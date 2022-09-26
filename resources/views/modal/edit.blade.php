@@ -96,8 +96,8 @@
 		<thead>
 			<tr>
 				<th class="ui-th-div">Barang</th>
-				<th class="ui-th-div">Harga</th>
 				<th class="ui-th-div">Qty</th>
+				<th class="ui-th-div">Harga</th>
 				<th class="ui-th-div">Total Harga</th>
 				<th class="ui-th-div">Action</th>
 			</tr>
@@ -111,14 +111,14 @@
                 <td>
                     <input type="text" value="{{$detail->barang}}" name="barang[]" class="FormElement ui-widget-content ui-corner-all" required autocomplete="off">
                 </td>
+				<td>
+					<input type="text" id="qty{{$detail->id}}" value="{{$detail->quantity}}" name="qty[]" onkeyup="cal({{$detail->id}})" class="qtyCal FormElement ui-widget-content ui-corner-all im-currency" required autocomplete="off">
+				</td>
                 <td>
                     <input type="text" id="harga{{$detail->id}}" value="{{$detail->harga}}" name="harga[]" onkeyup="cal({{$detail->id}})" class="hargaCal FormElement ui-widget-content ui-corner-all im-numeric im-currency formcur" required autocomplete="off">
                 </td>
                 <td>
-                    <input type="text" id="qty{{$detail->id}}" value="{{$detail->quantity}}" name="qty[]" onkeyup="cal({{$detail->id}})" class="qtyCal FormElement ui-widget-content ui-corner-all im-currency" required autocomplete="off">
-                </td>
-                <td>
-                    <input type="text" id="total_item{{$detail->id}}" readonly value="{{$total}}" name="total_item[]" class="FormElement ui-widget-content ui-corner-all im-numeric im-currency formcur" required autocomplete="off">
+                    <input type="text" id="total_item{{$detail->id}}" readonly value="{{$total}}" name="total_item[]" class="totalItem total FormElement ui-widget-content ui-corner-all im-numeric im-currency formcur" required autocomplete="off">
                 </td>
                 
                 <td>
@@ -129,7 +129,11 @@
             </tr>
             @endforeach
 			<tr>
-				<td colspan="4"></td>
+				<td colspan="2"></td>
+				<td colspan="" style="text-align:right">Total</td>
+				<td>
+					<input type="text" id="total_faktur" readonly name="total_faktur"  class="total FormElement ui-widget-content ui-corner-all im-currency im-numeric" required autocomplete="off">
+				</td>
 				<td>
 					<a href="javascript:" onclick="addRow(); setNumericFormat(); formBindKeys();">
 						<span class="ui-icon ui-icon-plus"></span>
@@ -147,6 +151,9 @@
 		setDateFormat()
 		setNumericFormat()
 		formBindKeys()
+		totalFaktur()
+		$('.total').css('text-align', 'right')
+
 	})
 	var indexRows = 599;
 	function addRow() {
@@ -158,13 +165,13 @@
 					<input type="text" name="barang[]" class="FormElement ui-widget-content ui-corner-all" required autocomplete="off">
 				</td>
 				<td>
-					<input type="text" id="harga${indexRows}" name="harga[]" onkeyup="cal(${indexRows})" class="hargaCal FormElement ui-widget-content ui-corner-all im-numeric im-currency" required autocomplete="off">
-				</td>
-				<td>
 					<input type="text" id="qty${indexRows}" name="qty[]" onkeyup="cal(${indexRows})" class="qtyCal FormElement ui-widget-content ui-corner-all im-currency" required autocomplete="off">
 				</td>
 				<td>
-					<input type="text" id="total_item${indexRows}" readonly name="total_item[]" class="FormElement ui-widget-content ui-corner-all im-numeric im-currency" required autocomplete="off">
+					<input type="text" id="harga${indexRows}" name="harga[]" onkeyup="cal(${indexRows})" class="hargaCal FormElement ui-widget-content ui-corner-all im-numeric im-currency" required autocomplete="off">
+				</td>
+				<td>
+					<input type="text" id="total_item${indexRows}" readonly name="total_item[]" class="totalItem total FormElement ui-widget-content ui-corner-all im-numeric im-currency" required autocomplete="off">
 				</td>
 				
 				<td>
@@ -174,7 +181,10 @@
 				</td>
 			</tr>
 		`)
+		
 	}
+	$('.total').css('text-align', 'right');
+
 
 	function setDateFormat() {
 		$('.hasDatePicker').datepicker({
@@ -256,6 +266,18 @@
 		
 		hasil = harga * qty;
 		$('#total_item'+id).val(hasil);
+		totalFaktur();
+	}
+
+	function totalFaktur(){
+		let total_faktur =0;
+		$('.totalItem').each(function(){
+			var totalItem  = $(this).val()
+			totalItem = Number(totalItem.replace(/[^0-9-]+/g,""))
+			total_faktur +=totalItem;
+		})
+		// total_faktur = total_group(total_faktur)
+		$('#total_faktur').val(total_faktur)
 	}
 
 	function formBindKeys() {

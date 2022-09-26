@@ -93,8 +93,8 @@
 		<thead>
 			<tr>
 				<th class="ui-th-div">Barang</th>
-				<th class="ui-th-div">Harga</th>
 				<th class="ui-th-div">Qty</th>
+				<th class="ui-th-div">Harga</th>
 				<th class="ui-th-div">Total Harga</th>
 				<th class="ui-th-div">Action</th>
 			</tr>
@@ -112,17 +112,17 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="text" name="barang[]" class="FormElement ui-widget-content ui-corner-all" required autocomplete="off">
-				</td>
+                    <input type="text"  name="barang[]" class="FormElement ui-widget-content ui-corner-all" required autocomplete="off">
+                </td>
 				<td>
-					<input type="text" id="harga0" name="harga[]" onkeyup="cal(0)"  class="hargaCal FormElement ui-widget-content ui-corner-all im-numeric im-currency" required autocomplete="off">
+					<input type="text" id="qty0"  name="qty[]" onkeyup="cal(0)" class="qtyCal FormElement ui-widget-content ui-corner-all im-currency" required autocomplete="off">
 				</td>
-				<td>
-					<input type="text" id="qty0" name="qty[]"  onkeyup="cal(0)" class="FormElement ui-widget-content im-currency ui-corner-all im-numeric" required autocomplete="off">
-				</td>
-				<td>
-					<input type="text" id="total_item0" readonly name="total_item[]"  class="total FormElement ui-widget-content ui-corner-all " required autocomplete="off">
-				</td>
+                <td>
+                    <input type="text" id="harga0"  name="harga[]" onkeyup="cal(0)" class="hargaCal FormElement ui-widget-content ui-corner-all im-numeric im-currency" required autocomplete="off">
+                </td>
+                <td>
+                    <input type="text" id="total_item0" readonly   name="total_item[]" class="totalItem total FormElement ui-widget-content ui-corner-all im-numeric" required autocomplete="off">
+                </td>
 				
 				<td>
 					<a href="javascript:">
@@ -131,7 +131,11 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="4"></td>
+				<td colspan="2"></td>
+				<td colspan="" style="text-align:right">Total</td>
+				<td>
+					<input type="text" id="total_faktur" readonly name="total_faktur"  class="total FormElement ui-widget-content ui-corner-all im-numeric " required autocomplete="off">
+				</td>
 				<td>
 					<a href="javascript:" onclick="addRow(); setNumericFormat(); formBindKeys();">
 						<span class="ui-icon ui-icon-plus"></span>
@@ -146,15 +150,10 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		// let index = 0
-		// var a= 123456789;
-		// var b= 234567891234;
-		// var c =BigInt(a*b)
-		// $('#total_item0').val(c);
-		// console.log(c);
 		setDateFormat()
 		setNumericFormat()
 		formBindKeys()
-		
+		totalFaktur();		
 	})
 	var indexRows = 1;
 	function addRow() {
@@ -166,13 +165,13 @@
 					<input type="text" name="barang[]" class="FormElement ui-widget-content ui-corner-all" required autocomplete="off">
 				</td>
 				<td>
-					<input type="text" id="harga${indexRows}" name="harga[]" onkeyup="cal(${indexRows})" class="hargaCal FormElement ui-widget-content ui-corner-all im-numeric im-currency" required autocomplete="off">
-				</td>
-				<td>
 					<input type="text" id="qty${indexRows}" name="qty[]" onkeyup="cal(${indexRows})" class="qtyCal FormElement ui-widget-content ui-corner-all im-numeric im-currency"  required autocomplete="off">
 				</td>
 				<td>
-					<input type="text" id="total_item${indexRows}" readonly  class="total FormElement ui-widget-content ui-corner-all im-numeric" required autocomplete="off">
+					<input type="text" id="harga${indexRows}" name="harga[]" onkeyup="cal(${indexRows})" class="hargaCal FormElement ui-widget-content ui-corner-all im-numeric im-currency" required autocomplete="off">
+				</td>
+				<td>
+					<input type="text" id="total_item${indexRows}" readonly  class="total totalItem FormElement ui-widget-content ui-corner-all im-numeric im-currency" required autocomplete="off">
 				</td>
 				
 				<td>
@@ -182,7 +181,6 @@
 				</td>
 			</tr>
 		`)
-		$('.total').css('text-align', 'right');
 	}
 	
 	function setDateFormat() {
@@ -215,7 +213,6 @@
 			}
 		})
 	}
-	$('.total').css('text-align', 'right');
 	function setNumericFormat() {
 		$('.im-numeric').keypress(function(e){
 			if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
@@ -231,10 +228,11 @@
 			allowMinus: false,
 			placeholder: '',
 		}).css('text-align', 'right');
+		
     }
 
-
     $('.im-phone').inputmask("+62 999-9999-99999");
+	$('.total').css('text-align', 'right');
 
 	$.ajax({
 		url: `${baseUrl}/api/gender`,
@@ -259,14 +257,26 @@
 		hasil = (harga) * (qty);
 		hasil =BigInt(harga*qty)
 
-		$str = total_group(hasil)
+		hasil = total_group(hasil)
 
-		$('#total_item'+id).val(str);
+		$('#total_item'+id).val(hasil);
+		totalFaktur();
+		
+	}
+
+	function totalFaktur(){
+		let total_faktur =0;
+		$('.totalItem').each(function(){
+			var totalItem  = $(this).val()
+			totalItem = Number(totalItem.replace(/[^0-9-]+/g,""))
+			total_faktur +=totalItem;
+		})
+		total_faktur = total_group(total_faktur)
+		$('#total_faktur').val(total_faktur)
 	}
 
 	function total_group (result){
 		hasil=result.toString();
-		// console.log(hasil.length);
 		mod = hasil.length % 3;
 		kepala_hasil = hasil.substring(0,mod);
 		ekor_hasil = hasil.substring(mod);
@@ -280,7 +290,7 @@
 	}
 
 	function formBindKeys() {
-		let inputs = $('#transaksiForm [name]:not(:hidden)')
+		let inputs = $('#customerForm [name]:not(:hidden)')
 		let element
 		let position
 
