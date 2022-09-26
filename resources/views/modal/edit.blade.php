@@ -261,6 +261,9 @@
 	function cal(id) {
 		harga =$('#harga'+id).val();
 		qty =$('#qty'+id).val();
+		if (harga == 'undefined') harga = 0;
+		if (qty == 'undefined') qty = 0;
+
 		harga = Number(harga.replace(/[^0-9-]+/g,""));
 		qty = Number(qty.replace(/[^0-9-]+/g,""));
 		

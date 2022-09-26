@@ -180,7 +180,8 @@
 					</a>
 				</td>
 			</tr>
-		`)
+		`).css('text-align', 'right');
+
 	}
 	
 	function setDateFormat() {
@@ -212,6 +213,7 @@
 				}).val([val.slice(0, 6), '', val.slice(8)].join(''))
 			}
 		})
+		$('.total').css('text-align', 'right');
 	}
 	function setNumericFormat() {
 		$('.im-numeric').keypress(function(e){
@@ -232,7 +234,6 @@
     }
 
     $('.im-phone').inputmask("+62 999-9999-99999");
-	$('.total').css('text-align', 'right');
 
 	$.ajax({
 		url: `${baseUrl}/api/gender`,
@@ -251,12 +252,15 @@
 	function cal(id) {
 		harga =$('#harga'+id).val();
 		qty =$('#qty'+id).val();
+		if (harga == 'undefined') harga = 0;
+		if (qty == 'undefined') qty = 0;
+
 		harga = Number(harga.replace(/[^0-9-]+/g,""));
 		qty = Number(qty.replace(/[^0-9-]+/g,""));
 
 		hasil = (harga) * (qty);
 		hasil =BigInt(harga*qty)
-
+		
 		hasil = total_group(hasil)
 
 		$('#total_item'+id).val(hasil);
@@ -277,6 +281,9 @@
 
 	function total_group (result){
 		hasil=result.toString();
+		if (hasil.length < 4) {
+			return hasil;
+		}
 		mod = hasil.length % 3;
 		kepala_hasil = hasil.substring(0,mod);
 		ekor_hasil = hasil.substring(mod);
